@@ -21,7 +21,7 @@ class PlaylistController extends Controller
      */
     public function create()
     {
-        return view('playlists.create');
+       
     }
 
     /**
@@ -29,14 +29,7 @@ class PlaylistController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'tag' => 'nullable|string|max:255',
-        ]);
-
-        $playlist = Playlist::create($validatedData);
-
-        return redirect()->route('playlists.index')->with('success', 'Playlist created successfully.');
+      
     }
 
     /**
@@ -44,8 +37,7 @@ class PlaylistController extends Controller
      */
     public function show($id)
     {
-        $playlist = Playlist::findOrFail($id);
-        return view('playlists.show', compact('playlist'));
+       
     }
 
     /**
@@ -53,8 +45,7 @@ class PlaylistController extends Controller
      */
     public function edit($id)
     {
-        $playlist = Playlist::findOrFail($id);
-        return view('playlists.edit', compact('playlist'));
+        
     }
 
     /**
@@ -62,15 +53,7 @@ class PlaylistController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'tag' => 'nullable|string|max:255',
-        ]);
-
-        $playlist = Playlist::findOrFail($id);
-        $playlist->update($validatedData);
-
-        return redirect()->route('playlists.index')->with('success', 'Playlist updated successfully.');
+        
     }
 
     /**
@@ -78,9 +61,6 @@ class PlaylistController extends Controller
      */
     public function destroy($id)
     {
-        $playlist = Playlist::findOrFail($id);
-        $playlist->delete();
-
-        return redirect()->route('playlists.index')->with('success', 'Playlist deleted successfully.');
+       
     }
 }
