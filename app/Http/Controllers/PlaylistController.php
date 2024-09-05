@@ -35,9 +35,9 @@ class PlaylistController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(Playlist $playlist)
     {
-       
+        return view('playlist.view', ['playlist' => $playlist]);
     }
 
     /**
