@@ -55,33 +55,34 @@ class PlaylistController extends Controller
      */
     public function edit($id)
     {
-        
+    // Retrieve the playlist by its ID
+    $playlist = Playlist::findOrFail($id);
+    
+    // Pass the playlist to the view
+    return view('playlist.edit', ['playlist' => $playlist]);
     }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
-    {
-        #funkcijai vajag piebāst kautkādu id plusā blade failā
+{
+    // Validate the request data
+    $request->validate([
+        'name' => 'required',
+        'tag' => 'required'
+    ]);
 
-        $request->validate([
-            'name' => 'required',
-            'tag' => 'required'
-        ]);
+    // Find the playlist and update its attributes
+    $playlist = Playlist::findOrFail($id);
+    $playlist->update([
+        'name' => $request->input('name'),
+        'tag' => $request->input('tag'),
+    ]);
 
-        
-        if ($request->user()->id == auth()->user()->id) {
-            Playlist::where('id', $id)
-                ->update([
-                    'name' => $request->input('name'),
-                    'tag' => $request->input('tag'),
-        ]);
-    }
-
-    return redirect('/playlist');
-    }
-
+    // Redirect back to the playlists index page
+    return redirect()->route('playlist.index')->with('success', 'Playlist updated successfully!');
+}
 
     /**
      * Remove the specified resource from storage.
