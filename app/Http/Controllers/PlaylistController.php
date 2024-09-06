@@ -13,7 +13,7 @@ class PlaylistController extends Controller
     public function index()
     {
         $playlists = Playlist::all();
-        return view('playlist.index', compact('playlists'));
+        return view('playlist.index', $playlists);
     }
 
     /**
