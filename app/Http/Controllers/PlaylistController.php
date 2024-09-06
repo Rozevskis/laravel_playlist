@@ -29,7 +29,11 @@ class PlaylistController extends Controller
      */
     public function store(Request $request)
     {
-      
+        $request->validate([
+            'title' => 'required',
+            'artist' => 'required',
+            'genre' => 'required'
+        ]);
     }
 
     /**
@@ -37,7 +41,7 @@ class PlaylistController extends Controller
      */
     public function show($id)
     {
-       
+       return view('playlist.show');
     }
 
     /**
