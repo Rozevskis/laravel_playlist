@@ -9,9 +9,9 @@
     <div class="w-full rounded overflow-hidden shadow-lg p-4 bg-white mb-4">
         <div class="flex justify-between">
             <div>       
-                <a class="font-bold text-xl mb-2" href="{{ route('playlist.show', $playlist->id) }}">
+                <a class=" hover:drop-shadow transform hover:bg-gray-100 font-bold text-xl mb-2" href="{{ route('playlist.show', $playlist->id) }}">
                     {{ $playlist->name }}
-                </a>
+                </a>    
                 <div class="px-6 pt-4 pb-2">
                     <span class="inline-block shadow-lg bg-gray-400 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{ $playlist->tag }}</span>
                 </div>
