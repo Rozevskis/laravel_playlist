@@ -93,6 +93,8 @@ class PlaylistController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy($id) {
-       
+        $post = Post::where('id', $id);
+
+        return redirect('/playlist');
     }
 }
