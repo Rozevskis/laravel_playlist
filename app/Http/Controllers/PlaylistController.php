@@ -43,7 +43,9 @@ class PlaylistController extends Controller
             // 'user_id' => auth()->user()->id <--------- šitos nezin vai vajag
         ]);
 
-        return redirect('/index');
+        
+
+        return redirect('/playlist');
     }
 
     /**
@@ -67,14 +69,30 @@ class PlaylistController extends Controller
      */
     public function update(Request $request, $id)
     {
+        #funkcijai vajag piebāst kautkādu id plusā blade failā
+
+        $request->validate([
+            'name' => 'required',
+            'tag' => 'required'
+        ]);
+
         
+        if ($request->user()->id == auth()->user()->id) {
+            Playlist::where('id', $id)
+                ->update([
+                    'name' => $request->input('name'),
+                    'tag' => $request->input('tag'),
+        ]);
     }
+
+    return redirect('/playlist');
+    }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
        
     }
 }
