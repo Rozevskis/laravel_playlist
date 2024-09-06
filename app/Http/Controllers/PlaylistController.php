@@ -29,21 +29,15 @@ class PlaylistController extends Controller
      */
     public function store(Request $request)
     {
-        //-- Create blade failā vajadzēs datus ar šādiem nosaukumiem, laikam?
         $request->validate([
             'name' => 'required',
-            'tag' => 'required',
+            'tag' => 'required'
         ]);
 
         Playlist::create([
             'name' => $request->input('name'),
-            'tag' => $request->input('tag'),
-            // 'slug' => SlugService::createSlug(Playlist::class, 'slug', $request->title),
-            // 'image_path' => $newImageName,
-            // 'user_id' => auth()->user()->id <--------- šitos nezin vai vajag
+            'tag' => $request->input('tag')
         ]);
-
-        
 
         return redirect('/playlist');
     }
