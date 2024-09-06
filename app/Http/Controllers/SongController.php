@@ -26,7 +26,19 @@ class SongController extends Controller
      */
     public function store(Request $request)
     {
-      
+        $request->validate([
+            'title' => 'required',
+            'artist' => 'required',
+            'genre' => 'required'
+        ]);
+
+        Song::create([
+            'title' => $request->input('title'),
+            'artist' => $request->input('artist'),
+            'genre' => $request->input('genre')
+        ]);
+
+        return redirect('/playlist'); //--------------Šo vajadzēs samainīt!!!!!!
     }
 
     /**
@@ -50,7 +62,23 @@ class SongController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'title' => 'required',
+            'artist' => 'required',
+            'genre' => 'required'
+        ]);
+
         
+        if ($request->user()->id == auth()->user()->id) {
+            Song::where('id', $id)
+                ->update([
+                    'title' => $request->input('title'),
+                    'artist' => $request->input('artist'),
+                    'genre' => $request->input('genre')
+        ]);
+    }
+
+    return redirect('/playlist'); //--------------Šo vajadzēs samainīt!!!!!!
     }
 
     /**
@@ -58,6 +86,10 @@ class SongController extends Controller
      */
     public function destroy($id)
     {
-       
+        $song = Song::where('id', $id);
+
+        $song->delete();
+
+        return redirect('/playlist'); //--------------Šo vajadzēs samainīt!!!!!!
     }
 }
