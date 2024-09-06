@@ -13,18 +13,20 @@ return new class extends Migration
     {
         Schema::create('songs', function (Blueprint $table) {
             $table->id();
-            $table->title();
-            $table->artist();
-            $table->genre();
+            $table->timestamps();
+            $table->string('title');
+            $table->string('artist');
+            $table->string('genre');
         });
         
         Schema::create('playlists', function (Blueprint $table) {
             $table->id();
-            $table->name();
-            $table->tag();
+            $table->timestamps();
+            $table->string('name');
+            $table->string('tag');
+            
         });
     }
-
 
     /**
      * Reverse the migrations.
@@ -32,5 +34,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('songs');
+        Schema::dropIfExists('playlists');
     }
 };
