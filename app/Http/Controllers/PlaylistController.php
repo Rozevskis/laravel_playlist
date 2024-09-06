@@ -67,7 +67,22 @@ class PlaylistController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required',
+            'tag' => 'required',
+            'id' => ''
+        ]);
+
         
+        if ($request->user()->id == auth()->user()->id) {
+            Playlist::where($request, $slug)
+                ->update([
+                    'title' => $request->input('title'),
+                    'description' => $request->input('description'),
+                    'slug' => SlugService::createSlug(Post::class, 'slug', $request->title),
+                    'user_id' => auth()->user()->id
+        ]);
+
     }
 
     /**
