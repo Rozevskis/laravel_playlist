@@ -39,7 +39,7 @@ class PlaylistController extends Controller
             'tag' => $request->input('tag')
         ]);
 
-        return redirect('/playlist');
+        return redirect('/playlist')->with('success', 'Playlist created successfully!');
     }
 
     /**
@@ -92,6 +92,6 @@ class PlaylistController extends Controller
 
         $playlist->delete();
 
-        return redirect('/playlist');
+        return redirect('/playlist')->with('success', 'Playlist deleted successfully!');
     }
 }
