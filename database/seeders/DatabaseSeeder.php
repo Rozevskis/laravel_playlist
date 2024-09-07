@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Playlist;
+// use App\Models\Playlist;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
         ]);
         
         $this->call(PlaylistSeeder::class);
+
+        $this->call(SongSeeder::class);
 
 
     }
