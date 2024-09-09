@@ -10,50 +10,13 @@
                 </div>
             </div>
             <div>
-                <a href="{{ route('playlist.edit', $playlist->id) }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mr-2">
-                    Edit
-                </a>
-                <form action="{{ route('playlist.destroy', $playlist->id) }}" method="POST" class="inline-block">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                        Delete
-                    </button>
-                </form>
+                <x-edit-button route="playlist.edit" :id="$playlist->id" />
+                <x-playlist-delete-button :playlistId="$playlist->id" />
             </div>
         </div>
 
-        <table class="min-w-full divide-y divide-gray-200 shadow-md rounded-lg overflow-hidden">
-            <!-- Table Header -->
-            <thead class="bg-gray-800 text-white">
-                <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Song Name</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Artist</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Genre</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Options</th>
-                </tr>
-            </thead>
+        <x-songs-table :playlist="$playlist" />
 
-            <!-- Table Body -->
-            <tbody class="divide-y divide-gray-200">
-                @foreach ($playlist->songs as $song)
-                <tr class="odd:bg-white even:bg-blue-100 hover:bg-gray-100">
-                    <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ $song->name }}</td>
-                    <td class="px-6 py-4 text-sm text-gray-500">{{ $song->artist }}</td>
-                    <td class="px-6 py-4 text-sm text-gray-500">{{ $song->genre }}</td>
-                    <td class="px-6 py-4 text-sm">
-                        <form action="{{ route('playlist.removeSong', ['playlist' => $playlist->id, 'song' => $song->id]) }}" method="POST" onsubmit="return confirm('Are you sure you want to remove this song?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded">
-                                Delete
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
         <!-- Add Song Form -->
         <div class="px-4 py-5 sm:px-6">
             <div class="mb-6">
@@ -61,7 +24,7 @@
                 <form action="{{ route('playlist.addSong', $playlist->id) }}" method="POST">
                     @csrf
                     <div class="flex items-center space-x-4">
-                        <select name="song_id" class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 sm:text-sm">
+                        <select name="song_id" class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 sm:text-sm " onsubmit="return confirm('Are you sure you want to delete this playlist?');">
                             <option value="">Select a Song</option>
                             @foreach ($songs as $song)
                             <option value="{{ $song->id }}">{{ $song->name }} by {{ $song->artist }}</option>

@@ -52,15 +52,15 @@
         <a href="{{ route('playlist.create') }}" class="button">
             <div class="button-overlay"></div>
             <span>Create Playlist <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 53 58" height="58" width="53">
-                <path stroke-width="9" stroke="currentColor" d="M44.25 36.3612L17.25 51.9497C11.5833 55.2213 4.5 51.1318 4.50001 44.5885L4.50001 13.4115C4.50001 6.86824 11.5833 2.77868 17.25 6.05033L44.25 21.6388C49.9167 24.9104 49.9167 33.0896 44.25 36.3612Z"></path>
-            </svg></span>
+                    <path stroke-width="9" stroke="currentColor" d="M44.25 36.3612L17.25 51.9497C11.5833 55.2213 4.5 51.1318 4.50001 44.5885L4.50001 13.4115C4.50001 6.86824 11.5833 2.77868 17.25 6.05033L44.25 21.6388C49.9167 24.9104 49.9167 33.0896 44.25 36.3612Z"></path>
+                </svg></span>
         </a>
     </div>
     <div class="gap-6">
         @foreach ($playlists as $playlist)
         <div class="w-full rounded overflow-hidden shadow-lg p-4 bg-white mb-4">
             <div class="flex justify-between">
-                <div>       
+                <div>
                     <div class="flex">
                         <a class=" hover:drop-shadow transform hover:bg-gray-100 font-bold text-xl mb-2" href="{{ route('playlist.show', $playlist->id) }}">
                             {{ $playlist->name }}
@@ -69,57 +69,16 @@
                     </div>
                 </div>
                 <div>
-                    <a href="{{ route('playlist.show', $playlist->id) }}" class="bg-blue-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mr-2">
-                        View
-                    </a>
-                    <a href="{{ route('playlist.edit', $playlist->id) }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mr-2">
-                        Edit
-                    </a>
-                    <form action="{{ route('playlist.destroy', $playlist->id) }}" method="POST" class="inline-block">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                            Delete
-                        </button>
-                    </form>
+                    <x-view-playlist-button :playlistId="$playlist->id" />
+                    <x-edit-button route="playlist.edit" :id="$playlist->id" />
+                    <x-playlist-delete-button :playlistId="$playlist->id" />
                 </div>
             </div>
-           <!-- Display Songs -->
+            <!-- Display Songs -->
             <div class=" pt-4 pb-2">
-                <table class="min-w-full divide-y divide-gray-200 shadow-md rounded-lg overflow-hidden">
-                    <!-- Table Header -->
-                    <thead class="bg-gray-800 text-white">
-                        <tr>
-                            <th class="w-[25%] px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Song Name</th>
-                            <th class="w-[25%] px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Artist</th>
-                            <th class="w-[25%] px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Genre</th>
-                            <th class="w-[25%] px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Options</th>
-                        </tr>
-                    </thead>
-
-                    <!-- Table Body -->
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        @foreach ($playlist->songs as $song)
-                            <tr class="hover:bg-gray-100 even:bg-blue-100">
-                                <td class="px-6 py-4 text-md font-medium text-gray-900">{{ $song->name }}</td>
-                                <td class="px-6 py-4 text-sm text-gray-500">{{ $song->artist }}</td>
-                                <td class="px-6 py-4 text-sm text-gray-500">{{ $song->genre }}</td>
-                                <td class="px-6 py-4 text-sm">
-                                    <form action="{{ route('playlist.removeSong', ['playlist' => $playlist->id, 'song' => $song->id]) }}" method="POST" onsubmit="return confirm('Are you sure you want to remove this song?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded">
-                                            Delete
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <x-songs-table :playlist="$playlist" />
             </div>
         </div>
         @endforeach
     </div>
 </x-app-layout>
-
