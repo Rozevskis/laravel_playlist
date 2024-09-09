@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Playlist;
+use App\Models\Song;
 
 class PlaylistController extends Controller
 {
@@ -48,6 +49,8 @@ class PlaylistController extends Controller
      */
     public function show(Playlist $playlist)
     {
+        $playlist->load('songs');
+
         return view('playlist.show', ['playlist' => $playlist]);
     }
 
@@ -89,10 +92,36 @@ class PlaylistController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy($id) {
-        $playlist = Playlist::where('id', $id);
-
+        // Retrieve the playlist by its ID, including its related songs
+        $playlist = Playlist::with('songs')->findOrFail($id);
+    
+        // Detach songs from the playlist
+        $playlist->songs()->detach();
+    
+        // Delete the playlist
         $playlist->delete();
-
-        return redirect('/playlist');
+    
+        // Redirect to the playlist index page
+        return redirect()->route('playlist.index')->with('success', 'Playlist deleted successfully.');
     }
+
+    //Returns to the playlist show page
+    // public function removeSong(Playlist $playlist, Song $song)
+    // {
+    // // Detach the song from the playlist
+    // $playlist->songs()->detach($song->id);
+
+    // // Redirect back to the playlist show page with a success message
+    // return redirect()->route('playlist.show', $playlist->id)->with('success', 'Song removed from playlist.');
+    // }
+
+    public function removeSong(Playlist $playlist, Song $song)
+    {
+    // Detach the song from the playlist
+    $playlist->songs()->detach($song->id);
+
+    // Redirect back to the playlist show page with a success message
+    return redirect()->route('playlist.index')->with('success', 'Song removed from playlist.');
+    }
+
 }

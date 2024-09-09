@@ -10,6 +10,8 @@ Route::get('/', function () {
 
 Route::resource('playlist', PlaylistController::class);
 
+//REmove song from playlist
+route::delete('/playlists/{playlist}/songs/{song}', [PlaylistController::class, 'removeSong'])->name('playlist.removeSong');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
