@@ -12,7 +12,8 @@ class PlaylistController extends Controller
      */
     public function index()
     {
-        $playlists = Playlist::all();
+        $playlists = Playlist::with('songs')->get(); // Eager load the songs for each playlist
+
         return view('playlist.index', compact('playlists'));
     }
 

@@ -25,6 +25,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call(SongSeeder::class);
 
+        $this->call(PivotSeeder::class);
+
 
     }
 }
