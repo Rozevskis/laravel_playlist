@@ -51,64 +51,79 @@
     <div class="flex justify-end mb-4">
         <a href="{{ route('playlist.create') }}" class="button">
             <div class="button-overlay"></div>
-            <span>Create Playlist <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 53 58" height="58" width="53">
-                <path stroke-width="9" stroke="currentColor" d="M44.25 36.3612L17.25 51.9497C11.5833 55.2213 4.5 51.1318 4.50001 44.5885L4.50001 13.4115C4.50001 6.86824 11.5833 2.77868 17.25 6.05033L44.25 21.6388C49.9167 24.9104 49.9167 33.0896 44.25 36.3612Z"></path>
-            </svg></span>
+            <span>Create Playlist <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 53 58" height="58"
+                    width="53">
+                    <path stroke-width="9" stroke="currentColor"
+                        d="M44.25 36.3612L17.25 51.9497C11.5833 55.2213 4.5 51.1318 4.50001 44.5885L4.50001 13.4115C4.50001 6.86824 11.5833 2.77868 17.25 6.05033L44.25 21.6388C49.9167 24.9104 49.9167 33.0896 44.25 36.3612Z">
+                    </path>
+                </svg></span>
         </a>
     </div>
     <div class="gap-6">
         @foreach ($playlists as $playlist)
-        <div class="w-full rounded overflow-hidden shadow-lg p-4 bg-white mb-4">
-            <div class="flex justify-between">
-                <div>       
-                    <a class=" hover:drop-shadow transform hover:bg-gray-100 font-bold text-xl mb-2" href="{{ route('playlist.show', $playlist->id) }}">
-                        {{ $playlist->name }}
-                    </a>     
-                    <div class="px-6 pt-4 pb-2">
-                        <span class="inline-block shadow-lg bg-gray-400 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{ $playlist->tag }}</span>
+            <div class="w-full rounded overflow-hidden shadow-lg p-4 bg-white mb-4">
+                <div class="flex justify-between">
+                    <div>
+                        <a class=" hover:drop-shadow transform hover:bg-gray-100 font-bold text-xl mb-2"
+                            href="{{ route('playlist.show', $playlist->id) }}">
+                            {{ $playlist->name }}
+                        </a>
+                        <span
+                            class="inline-block shadow-lg bg-gray-300 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{ $playlist->tag }}
+                        </span>
+                    </div>
+                    <div>
+                        <a href="{{ route('playlist.show', $playlist->id) }}"
+                            class="bg-blue-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mr-2">
+                            View
+                        </a>
+                        <a href="{{ route('playlist.edit', $playlist->id) }}"
+                            class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mr-2">
+                            Edit
+                        </a>
+                        <form action="{{ route('playlist.destroy', $playlist->id) }}" method="POST" class="inline-block">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                Delete
+                            </button>
+                        </form>
                     </div>
                 </div>
-                <div>
-                    <a href="{{ route('playlist.show', $playlist->id) }}" class="bg-blue-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mr-2">
-                        View
-                    </a>
-                    <a href="{{ route('playlist.edit', $playlist->id) }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mr-2">
-                        Edit
-                    </a>
-                    <form action="{{ route('playlist.destroy', $playlist->id) }}" method="POST" class="inline-block">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                            Delete
-                        </button>
-                    </form>
+                <div class="pt-4 pb-2">
+                    <table class="w-full table-auto">
+                        <thead class="bg-gray-800 text-white">
+                            <tr>
+                                <th class="w-[25%] px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Song
+                                    Name</th>
+                                <th class="w-[25%] px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Artist
+                                </th>
+                                <th class="w-[25%] px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Genre
+                                </th>
+                                <th class="w-[25%] px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Options
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($playlist->songs as $song)
+                                <tr class="odd:bg-white even:bg-blue-50 hover:bg-gray-100">
+                                    <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ $song->title }}</td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">{{ $song->artist }}</td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">{{ $song->genre }}</td>
+                                    <td class="px-6 py-4 text-sm">
+                                        <button class="bg-red-500 hover:bg-red-700 text-white text-xs py-1 px-2 rounded">
+                                            Remove
+                                            song
+                                        </button>
+                                    </td>
+                                </tr>
+                            @endforeach
+
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div class="px-6 pt-4 pb-2">
-                <table class="w-full table-auto">
-                    <tbody>
-                        <tr>
-                            <td class="border px-4 py-2">Song 1</td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-2">Song 2</td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-2">Song 3</td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-2">Song 4</td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-2">Song 5</td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-2">Song 6</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
         @endforeach
     </div>
 </x-app-layout>

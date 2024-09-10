@@ -20,8 +20,10 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
-        
+
         $this->call(PlaylistSeeder::class);
+        $this->call(SongSeeder::class);
+        $this->call(PivotSeeder::class);
 
 
     }
