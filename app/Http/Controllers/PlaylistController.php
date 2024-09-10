@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Playlist;
+use App\Models\Song;
 
 class PlaylistController extends Controller
 {
@@ -47,7 +48,18 @@ class PlaylistController extends Controller
      */
     public function show(Playlist $playlist)
     {
-        return view('playlist.show', ['playlist' => $playlist]);
+        $playlist->load('songs');
+
+        $allSongs = Song::all();
+
+        $availableSongs = $allSongs->filter(function ($song) use ($playlist) {
+            return !$playlist->songs->contains($song);
+        });
+
+        return view('playlist.show', [
+            'playlist' => $playlist,
+            'songs' => $availableSongs
+        ]);
     }
 
     /**
@@ -95,4 +107,17 @@ class PlaylistController extends Controller
 
         return redirect('/playlist')->with('success', 'Playlist deleted successfully!');
     }
+    public function removeSong($playlistId, $songId)
+    {
+        // Find the playlist by its ID
+        $playlist = Playlist::findOrFail($playlistId);
+
+        // Detach the song from the playlist
+        $playlist->songs()->detach($songId);
+
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'Song removed from playlist successfully.');
+    }
+
+
 }

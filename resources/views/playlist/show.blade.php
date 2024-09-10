@@ -45,15 +45,37 @@
                             <td class="px-6 py-4 text-sm text-gray-500">{{ $song->artist }}</td>
                             <td class="px-6 py-4 text-sm text-gray-500">{{ $song->genre }}</td>
                             <td class="px-6 py-4 text-sm">
-                                <button class="bg-red-500 hover:bg-red-700 text-white text-xs py-1 px-2 rounded">
-                                    Remove
-                                    song
-                                </button>
+                                <form
+                                    action="{{ route('playlist.removeSong', ['playlist' => $playlist->id, 'song' => $song->id]) }}"
+                                    method="POST" onsubmit="return confirm('Are you sure you want to remove this song?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded">
+                                        Delete
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
+        </div>
+        <div class="w-full">
+            <form class="flex gap-2">
+                <select name="song_id"
+                    class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 sm:text-sm "
+                    onsubmit="return confirm('Are you sure you want to delete this playlist?');">
+                    <option value="">Select a Song</option>
+                    @foreach ($songs as $song)
+                        <option value="{{ $song->id }}">{{ $song->title }} by {{ $song->artist }}</option>
+                    @endforeach
+                </select>
+                <button class="py-2 px-4 bg-green-500 rounded text-nowrap font-semibold text-white">
+                    Add song
+                </button>
+            </form>
+
         </div>
     </div>
 </x-app-layout>

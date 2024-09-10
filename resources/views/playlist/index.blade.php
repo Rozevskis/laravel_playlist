@@ -1,7 +1,7 @@
 <x-app-layout>
 
     <div class="flex justify-end mb-4">
-        <a href="{{ route('playlist.create') }}" class="button bg-gray-700 text-white p-2 rounded">
+        <a href="{{ route('playlist.create') }}" class="button bg-gray-700 text-white px-4 py-2 rounded">
             Create Playlist
         </a>
     </div>
@@ -58,14 +58,20 @@
                                     <td class="px-6 py-4 text-sm text-gray-500">{{ $song->artist }}</td>
                                     <td class="px-6 py-4 text-sm text-gray-500">{{ $song->genre }}</td>
                                     <td class="px-6 py-4 text-sm">
-                                        <button class="bg-red-500 hover:bg-red-700 text-white text-xs py-1 px-2 rounded">
-                                            Remove
-                                            song
-                                        </button>
+                                        <form
+                                            action="{{ route('playlist.removeSong', ['playlist' => $playlist->id, 'song' => $song->id]) }}"
+                                            method="POST"
+                                            onsubmit="return confirm('Are you sure you want to remove this song?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded">
+                                                Delete
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
-
                         </tbody>
                     </table>
                 </div>
