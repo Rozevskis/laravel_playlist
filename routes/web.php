@@ -12,6 +12,8 @@ Route::resource('playlist', PlaylistController::class);
 
 Route::delete('/playlists/{playlist}/songs/{song}', [PlaylistController::class, 'removeSong'])->name('playlist.removeSong');
 
+Route::post('/playlist/{playlist}/add-song', [PlaylistController::class, 'addSong'])->name('playlist.addSong');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

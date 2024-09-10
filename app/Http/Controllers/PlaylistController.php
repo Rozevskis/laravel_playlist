@@ -119,5 +119,20 @@ class PlaylistController extends Controller
         return redirect()->back()->with('success', 'Song removed from playlist successfully.');
     }
 
+    public function addSong(Request $request, Playlist $playlist)
+    {
+        $request->validate(
+            [
+                'song_id' => 'required|exists:songs,id',
+            ]
+        );
+        $songId = $request->input('song_id');
 
+        $playlist->songs()->attach($songId);
+
+        return redirect()->route('playlist.show', $playlist->id)->with('success', 'Song added to playlist.');
+
+
+
+    }
 }

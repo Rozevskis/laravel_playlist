@@ -62,7 +62,8 @@
             </table>
         </div>
         <div class="w-full">
-            <form class="flex gap-2">
+            <form class="flex gap-2" action="{{ route('playlist.addSong', $playlist->id) }}" method="POST">
+                @csrf
                 <select name="song_id"
                     class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 sm:text-sm "
                     onsubmit="return confirm('Are you sure you want to delete this playlist?');">
@@ -71,7 +72,7 @@
                         <option value="{{ $song->id }}">{{ $song->title }} by {{ $song->artist }}</option>
                     @endforeach
                 </select>
-                <button class="py-2 px-4 bg-green-500 rounded text-nowrap font-semibold text-white">
+                <button type="submit" class="py-2 px-4 bg-green-500 rounded text-nowrap font-semibold text-white">
                     Add song
                 </button>
             </form>
